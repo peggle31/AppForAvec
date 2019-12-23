@@ -1,0 +1,69 @@
+1) select case 
+when ((curdate() - dt_nascimento) / 365.25)  between 15 and 25 then 'Adolescentes'
+when ((curdate() - dt_nascimento) / 365.25)  between 26 and 59 then 'Adultos'
+when ((curdate() - dt_nascimento) / 365.25)  between 60 and 110 then 'Idosos'
+end as faixa_idade, count(*)
+from avaliacoes
+group by faixa_idade;
+
+2)SELECT ci.desc_cidade, count(desc_cidade) as Qtd
+FROM cidades ci
+JOIN avaliacoes a ON ci.id_cidade = a.id_cidade
+GROUP BY desc_cidade;
+
+3)SELECT ca.desc_categoria, AVG(a.nota) as Media
+FROM categorias ca
+JOIN avaliacoes a ON ca.id_categoria = a.id_categoria
+GROUP BY ca.desc_categoria;
+
+4) SELECT comentario 
+FROM avaliacoes
+WHERE nota > '3'
+LIMIT 10;
+
+5) SELECT comentario 
+FROM avaliacoes
+WHERE nota < '3'
+LIMIT 10;
+
+-- Complementos
+
+Create table categorias(
+id_categoria int (3) primary key auto_increment,
+desc_categoria varchar(25) not null unique,
+created_at datetime default NOW()
+);
+
+INSERT INTO categorias (desc_categoria) values
+('Bem estar'), 
+('Eletrônicos'), 
+('Brinquedos'),
+('Moda Feminina');
+
+CREATE TABLE Estados (
+id_estado int (2) primary key auto_increment,
+sigla VARCHAR(2) NOT NULL,
+desc_estado VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE cidades(
+id_cidade int(11) primary key,
+desc_cidade varchar(120) DEFAULT NULL,
+id_estado int(5) DEFAULT NULL,
+constraint fk_id_estado foreign key (id_estado) references Estados(id_estado)
+)default charset = utf8;
+
+Create table avaliacoes(
+id_avaliacao int (3) primary key auto_increment,
+nome varchar(25) not null,
+sobrenome varchar(45) not null,
+cpf bigint (20) not null unique,
+dt_nascimento date not null,
+id_cidade int(6) not null,
+id_categoria int(3) not null,
+comentario varchar(200) default null,
+nota int (2) not null, 
+created_at datetime default NOW(),
+constraint fk_id_cidade foreign key (id_cidade) references cidades(id_cidade),
+constraint fk_id_categoria foreign key (id_categoria) references categorias(id_categoria)
+)default character set utf8;
