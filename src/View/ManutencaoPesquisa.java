@@ -6,8 +6,6 @@
 package View;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -18,8 +16,10 @@ import model.dao.AvaliacaoDAO;
 
 /**
  *
- * @author gcgus
+ * @author Gustavo Crispim
+ * 22/12/2019
  */
+
 public class ManutencaoPesquisa extends javax.swing.JFrame {
 
     /**
